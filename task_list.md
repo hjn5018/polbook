@@ -8,7 +8,7 @@
 - [x] 서비스 핵심 요구사항 정의 (`README.md` 작성)
 - [x] 인증 방식 및 기술 스택 선정
 - [x] 사용자(판매자, 구매자) 및 관리자 핵심 이용 시나리오 작성 (`user_scenarios.md`)
-- [/] 데이터베이스 ERD (Entity Relationship Diagram) 상세 설계 (`erd_design.md` 초안 작성 완료, 리뷰 중)
+- [x] 데이터베이스 ERD (Entity Relationship Diagram) 상세 설계 (`erd_design.md` 초안 작성 완료, 리뷰 중)
   - [x] Users, Books, BookImages, Locations, Reviews, Reports 테이블 스키마 구체화
   - [x] Wishlists(찜), ChatRooms/ChatMessages(채팅), Payments(결제), Settlements(정산) 테이블 스키마 구체화
   - [x] 테이블 간의 관계 (1:N, N:M 등) 매핑 + Mermaid 다이어그램
@@ -22,15 +22,15 @@
 - [x] API 명세서 작성 (`api_spec.md` RESTful Endpoint 기획 완료)
 
 ## 2. ⚙️ 프로젝트 초기 세팅 (Project Setup)
-- [ ] 깃허브 레포지토리(Repository) 생성 및 폴더 구조 세팅
-- [ ] Frontend (React.js / React Native) 초기 보일러플레이트 세팅
-  - [ ] 폴더 아키텍처 (components, pages, utils, hooks 등) 구성
-  - [ ] 라우팅(React Router) 세팅
-  - [ ] 전역 상태 관리(Redux, Zustand 등) 또는 라이브러리 설치
-- [ ] Backend (Spring Boot) 초기 프로젝트 생성
-  - [ ] Spring Web, Spring Data JPA, MySQL Driver 등 의존성 추가
-  - [ ] 디렉터리 구조(Controller, Service, Repository, Entity 등) 세팅
-- [ ] Database (MySQL) 로컬 환경 설치 및 스키마 초기화 테스트
+- [x] 깃허브 레포지토리(Repository) 생성 및 폴더 구조 세팅
+- [x] Frontend (React.js / React Native) 초기 보일러플레이트 세팅
+  - [x] 폴더 아키텍처 (components, pages, utils, hooks 등) 구성
+  - [x] 라우팅(React Router) 세팅
+  - [x] 전역 상태 관리(Redux, Zustand 등) 또는 라이브러리 설치
+- [x] Backend (Spring Boot) 초기 프로젝트 생성
+  - [x] Spring Web, Spring Data JPA, MySQL Driver 등 의존성 추가
+  - [x] 디렉터리 구조(Controller, Service, Repository, Entity 등) 세팅
+- [x] Database (MySQL) 로컬 환경 설치 및 스키마 초기화 테스트
 
 ## 3. 🖥️ 핵심 기능(API 및 화면) 개발 (Execution)
 - [ ] 이메일 인증 기능 (교내 웹메일 연동)
