@@ -1,8 +1,17 @@
 # 📚 Polbook (교내 중고 책 거래 서비스) 기획안
 
+## 목차
+- [1. 서비스 개요](#1-서비스-개요)
+- [2. 핵심 기능 요구사항 및 세부 로직](#2-핵심-기능-요구사항-및-세부-로직)
+- [3. 추천 기술 스택 (예시)](#3-추천-기술-스택-예시)
+- [4. 데이터베이스 ERD 및 스키마 구조](#4-데이터베이스-erd-및-스키마-구조)
+- [5. UI 목업 및 화면 설계](#5-ui-목업-및-화면-설계)
+- [6. API 명세 요약 (RESTful API)](#6-api-명세-요약-restful-api)
+
+---
 ## 1. 서비스 개요
 - **목적:** 교내 학생들 간의 안전하고 편리한 전공/교양/자격증 서적 중고 거래 지원
-- **타겟 유저:** `.kopo.ac.kr` 이메일을 소유한 교내 재학생 및 교직원
+- **타겟 유저:** `office.kopo.ac.kr` 이메일을 소유한 교내 재학생 및 교직원
 
 ## 2. 핵심 기능 요구사항 및 세부 로직
 
@@ -67,16 +76,107 @@
   - `RDS (MySQL)`: 관계형 데이터베이스 관리 및 자동 백업 지원 (db.t3.micro 권장)
   - `S3`: 유저가 업로드하는 중고 책 사진 파일(이미지) 저장용 스토리지
 
-## 4. 데이터베이스(ERD) 모델링 초안
-정확한 설계를 위해 아래 테이블들을 기반으로 구체적인 ERD 다이어그램을 다음 단계에서 작성할 예정입니다.
+## 4. 📊 데이터베이스 ERD 및 스키마 구조
+    
+*   📊 **[데이터베이스 ERD 상세 설계본 보기](./erd_design.md)**
+    *   총 11개 테이블 스키마, PK/FK 관계, 컬럼 제약조건
 
-- `Users` (사용자: 학번, 이메일, 비밀번호, 닉네임, 평점평균)
-- `Books` (게시글: ID, 작성자 학번, 책 제목, 카테고리, 학년, 학기, 강의명, 교수명, 가격, 책 상태, 필기 여부, 사진 첨부, 거래장소, 거래상태, 등록일)
-- `Locations` (장소: 교내 거래 핫스팟 목록 관리)
-- `Wishlists` (찜 목록: 사용자 학번, 찜한 책 ID, 찜한 날짜)
-- `ChatRooms` (채팅방: 방 ID, 책 ID, 구매자 학번, 판매자 학번, 생성일)
-- `ChatMessages` (메시지: 메시지 ID, 채팅방 ID, 보낸 사람 학번, 메시지 내용, 읽음 여부, 전송 시간)
-- `Payments` (결제내역: 결제 UID, 구매자 학번, 연결된 책 ID, 결제 금액, 결제 수단, 상태[대기/보관중/환불/정산완료], 결제 일시)
-- `Settlements` (정산내역: 정산 ID, 결제 UID, 판매자 학번, 정산 금액, 상태[대기/지급완료], 완료 일시)
-- `Reviews` (평점: 평가자, 피평가자, 연결된 책 ID, 점수, 코멘트)
-- `Reports` (신고내역: 신고자, 피신고자, 사유, 처리상태)
+```mermaid
+erDiagram
+    Users ||--o{ Books : "판매 등록"
+    Users ||--o{ Wishlists : "찜"
+    Users ||--o{ ChatMessages : "메시지 전송"
+    Users ||--o{ Reviews : "평가 작성"
+    Users ||--o{ Reviews : "평가 대상"
+    Users ||--o{ Reports : "신고"
+    Users ||--o{ Reports : "피신고"
+    Users ||--o{ Payments : "결제"
+    Users ||--o{ Settlements : "정산 수령"
+
+    Books ||--o{ BookImages : "사진 첨부"
+    Books ||--o{ Wishlists : "찜 대상"
+    Books ||--o{ ChatRooms : "거래 문의"
+    Books ||--o{ Payments : "결제 대상"
+    Books ||--o{ Reviews : "거래 평가"
+    Books }o--|| Locations : "거래 장소"
+
+    ChatRooms ||--o{ ChatMessages : "메시지 포함"
+    ChatRooms }o--|| Users : "구매자"
+    ChatRooms }o--|| Users : "판매자"
+
+    Payments ||--o| Settlements : "정산 연결"
+```
+
+## 5. 📱 UI 목업 및 화면 설계
+
+*   🎨 **[UI/UX 화면 설계 및 와이어프레임 보기](./ui_ux_design.md)**
+    *   핵심 6개 화면 설계 명세서 문서
+*   📱 **[UI 정적 목업 (HTML/Tailwind) 열기](./mockup.html)**
+    *   브라우저에서 직접 구동 가능한 로그인 & 홈 화면 시각화 목업
+*   ![Polbook UI 목업 스크린샷](./mockup_preview.png)
+
+## 6. 🔌 API 명세 요약 (RESTful API)
+
+*   **Base URL:** `http://localhost:8080` (개발 환경) / `https://api.polbook.kopo.ac.kr` (운영 환경)
+*   **공통 헤더:** `Authorization: Bearer {JWT_ACCESS_TOKEN}` (로그인 후 모든 요청에 포함)
+
+### 6.1 🔐 인증 & 인가 (Auth)
+| Method | Endpoint | 설명 |
+|---|---|---|
+| `POST` | `/api/auth/email/send` | 인증 메일 발송 |
+| `POST` | `/api/auth/email/verify` | 인증번호 확인 |
+| `POST` | `/api/auth/signup` | 회원가입 |
+| `POST` | `/api/auth/login` | 로그인 |
+| `POST` | `/api/auth/password/reset` | 비밀번호 재설정 |
+
+### 6.2 🏠 사용자 (Users / MyPage)
+| Method | Endpoint | 설명 |
+|---|---|---|
+| `GET` | `/api/users/me` | 내 프로필 조회 |
+| `PUT` | `/api/users/me` | 내 프로필 수정 |
+| `GET` | `/api/users/{userId}` | 타인 프로필 조회 |
+
+### 6.3 📖 중고 책 게시글 (Books)
+| Method | Endpoint | 설명 |
+|---|---|---|
+| `GET` | `/api/books` | 책 목록 조회 (홈) |
+| `GET` | `/api/books/{bookId}` | 책 상세 조회 |
+| `POST` | `/api/books` | 새 책 등록 |
+| `PUT` | `/api/books/{bookId}` | 등록한 책 수정 |
+| `DELETE` | `/api/books/{bookId}`| 책 삭제 |
+| `PATCH` | `/api/books/{bookId}/status`| 거래 상태 변경 |
+
+### 6.4 ❤️ 찜하기 (Wishlists)
+| Method | Endpoint | 설명 |
+|---|---|---|
+| `POST` | `/api/books/{bookId}/wish` | 찜 토글 (추가/취소) |
+| `GET` | `/api/users/me/wishlists` | 내 찜 목록 조회 |
+
+### 6.5 📍 거래 장소 (Locations)
+| Method | Endpoint | 설명 |
+|---|---|---|
+| `GET` | `/api/locations` | 활성화된 교내 거래 핫스팟 목록 |
+
+### 6.6 💬 채팅 (Chat)
+> 실시간 채팅은 `WebSocket(STOMP)` 연결 `/ws/chat` 사용
+
+| Method | Endpoint | 설명 |
+|---|---|---|
+| `POST` | `/api/chats` | 채팅방 생성 |
+| `GET` | `/api/chats` | 내 채팅방 목록 조회 |
+| `GET` | `/api/chats/{roomId}/messages`| 이전 메시지 내역 조회 |
+
+### 6.7 💳 결제 및 정산 (에스크로 API)
+> 1. 결제 준비 (`/ready`) -> 2. PG창 결제 -> 3. 완료 웹훅 (`/complete`, 보관) -> 4. 구매 확정 (`/settle`, 송금)
+
+| Method | Endpoint | 설명 |
+|---|---|---|
+| `POST` | `/api/payments/ready` | 에스크로 결제 준비 (PG창 띄우기 전) |
+| `POST` | `/api/payments/complete`| PG사 결제 완료 웹훅 처리 |
+| `POST` | `/api/payments/settle`  | 오프라인 거래 후 구매 확정 |
+
+### 6.8 ⭐ 리뷰 및 신고 (Reviews & Reports)
+| Method | Endpoint | 설명 |
+|---|---|---|
+| `POST` | `/api/reviews` | 거래 완료 후 타인 매너 평가 |
+| `POST` | `/api/reports` | 악성 게시글/사용자 신고 |
