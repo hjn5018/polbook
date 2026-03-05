@@ -76,7 +76,7 @@
   - `RDS (MySQL)`: 관계형 데이터베이스 관리 및 자동 백업 지원 (db.t3.micro 권장)
   - `S3`: 유저가 업로드하는 중고 책 사진 파일(이미지) 저장용 스토리지
 
-## 4. 📊 데이터베이스 ERD 및 스키마 구조
+## 4. 데이터베이스 ERD 및 스키마 구조
     
 *   📊 **[데이터베이스 ERD 상세 설계본 보기](./erd_design.md)**
     *   총 11개 테이블 스키마, PK/FK 관계, 컬럼 제약조건
@@ -107,7 +107,7 @@ erDiagram
     Payments ||--o| Settlements : "정산 연결"
 ```
 
-## 5. 📱 UI 목업 및 화면 설계
+## 5. UI 목업 및 화면 설계
 
 *   🎨 **[UI/UX 화면 설계 및 와이어프레임 보기](./ui_ux_design.md)**
     *   핵심 6개 화면 설계 명세서 문서
@@ -115,7 +115,7 @@ erDiagram
     *   브라우저에서 직접 구동 가능한 로그인 & 홈 화면 시각화 목업
 *   ![Polbook UI 목업 스크린샷](./mockup_preview.png)
 
-## 6. 🔌 API 명세 요약 (RESTful API)
+## 6. API 명세 요약 (RESTful API)
 
 *   **Base URL:** `http://localhost:8080` (개발 환경) / `https://api.polbook.kopo.ac.kr` (운영 환경)
 *   **공통 헤더:** `Authorization: Bearer {JWT_ACCESS_TOKEN}` (로그인 후 모든 요청에 포함)
