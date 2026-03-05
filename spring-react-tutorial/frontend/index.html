@@ -1,0 +1,45 @@
+<!--
+  📄 index.html - React 앱의 유일한 HTML 파일
+
+  💡 Django 템플릿과의 차이점:
+     Django에서는 base.html, home.html 등 수십 개의 HTML 파일을 만들지만,
+     React(SPA)에서는 이 단 하나의 HTML 파일만 존재합니다.
+
+  🔑 핵심 원리:
+     브라우저가 이 index.html을 받으면 <body> 안에 있는 <div id="root">는 아직 비어있습니다.
+     그 아래의 <script> 태그가 main.jsx 를 불러오고,
+     main.jsx 안의 React 코드가 <div id="root"> 안에 전체 화면을 JavaScript로 그려 넣습니다.
+     → 이것이 "SPA(Single Page Application)"의 핵심입니다!
+-->
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+
+  <!-- 브라우저 탭에 표시되는 작은 아이콘 (파비콘) -->
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+
+  <!-- 반응형 디자인을 위한 뷰포트 설정 (모바일 대응) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- 브라우저 탭에 표시되는 페이지 제목 -->
+  <title>미니 중고 책 게시판</title>
+</head>
+
+<body>
+  <!--
+      🎯 React가 화면을 그려 넣을 "빈 그릇" 입니다.
+      main.jsx에서 createRoot(document.getElementById('root'))로 이 요소를 찾아서
+      App 컴포넌트를 이 안에 렌더링(삽입)합니다.
+    -->
+  <div id="root"></div>
+
+  <!--
+      📦 React 앱의 시작점(Entry Point)인 main.jsx를 불러옵니다.
+      type="module" : ES 모듈 방식으로 import/export 구문을 사용할 수 있게 해줍니다.
+    -->
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>
