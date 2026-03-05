@@ -8,10 +8,10 @@
 - [x] 서비스 핵심 요구사항 정의 (`README.md` 작성)
 - [x] 인증 방식 및 기술 스택 선정
 - [x] 사용자(판매자, 구매자) 및 관리자 핵심 이용 시나리오 작성 (`user_scenarios.md`)
-- [ ] 데이터베이스 ERD (Entity Relationship Diagram) 상세 설계
-  - [ ] Users, Books, Locations, Reviews, Reports 테이블 스키마 구체화
-  - [ ] 기능 추가에 따른 Wishlists(찜), ChatRooms/ChatMessages(채팅), Payments(결제), Settlements(정산) 테이블 스키마 구체화
-  - [ ] 테이블 간의 관계 (1:N, N:M 등) 매핑
+- [/] 데이터베이스 ERD (Entity Relationship Diagram) 상세 설계 (`erd_design.md` 초안 작성 완료, 리뷰 중)
+  - [x] Users, Books, BookImages, Locations, Reviews, Reports 테이블 스키마 구체화
+  - [x] Wishlists(찜), ChatRooms/ChatMessages(채팅), Payments(결제), Settlements(정산) 테이블 스키마 구체화
+  - [x] 테이블 간의 관계 (1:N, N:M 등) 매핑 + Mermaid 다이어그램
 - [ ] UI/UX 디자인 및 화면 설계 (Wireframing 예상)
   - [ ] 로그인 / 회원가입 화면
   - [ ] 메인 홈 화면 (책 목록, 검색/필터, 판매 책 등록 직행 버튼)
