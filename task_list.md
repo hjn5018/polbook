@@ -12,14 +12,14 @@
   - [x] Users, Books, BookImages, Locations, Reviews, Reports 테이블 스키마 구체화
   - [x] Wishlists(찜), ChatRooms/ChatMessages(채팅), Payments(결제), Settlements(정산) 테이블 스키마 구체화
   - [x] 테이블 간의 관계 (1:N, N:M 등) 매핑 + Mermaid 다이어그램
-- [ ] UI/UX 디자인 및 화면 설계 (Wireframing 예상)
-  - [ ] 로그인 / 회원가입 화면
-  - [ ] 메인 홈 화면 (책 목록, 검색/필터, 판매 책 등록 직행 버튼)
-  - [ ] 책 상세 조회 및 상태 변경 화면
-  - [ ] 새로운 책 등록 화면
-  - [ ] 채팅 및 거래 장소 약속 화면
-  - [ ] 마이페이지 (내 정보, 평점, 찜목록)
-- [ ] API 명세서 작성 (RESTful API Endpoint 기획)
+- [x] UI/UX 디자인 및 화면 설계 (`ui_ux_design.md` 와이어프레임 작성 완료)
+  - [x] 로그인 / 회원가입 화면
+  - [x] 메인 홈 화면 (책 목록, 검색/필터, 판매 책 등록 직행 버튼)
+  - [x] 책 상세 조회 및 상태 변경 화면
+  - [x] 새로운 책 등록 화면
+  - [x] 채팅 및 거래 장소 약속 화면
+  - [x] 마이페이지 (내 정보, 평점, 찜목록)
+- [x] API 명세서 작성 (`api_spec.md` RESTful Endpoint 기획 완료)
 
 ## 2. ⚙️ 프로젝트 초기 세팅 (Project Setup)
 - [ ] 깃허브 레포지토리(Repository) 생성 및 폴더 구조 세팅
