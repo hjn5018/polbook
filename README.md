@@ -7,6 +7,7 @@
 - [4. 데이터베이스 ERD 및 스키마 구조](#4-데이터베이스-erd-및-스키마-구조)
 - [5. UI 목업 및 화면 설계](#5-ui-목업-및-화면-설계)
 - [6. API 명세 요약 (RESTful API)](#6-api-명세-요약-restful-api)
+- [7. 프로젝트 로컬 구동 방법](#7-프로젝트-로컬-구동-방법)
 
 ---
 ## 1. 서비스 개요
@@ -180,3 +181,36 @@ erDiagram
 |---|---|---|
 | `POST` | `/api/reviews` | 거래 완료 후 타인 매너 평가 |
 | `POST` | `/api/reports` | 악성 게시글/사용자 신고 |
+
+## 7. 프로젝트 로컬 구동 방법
+
+로컬 PC 환경에서 Polbook 프로젝트(DB, Backend, Frontend)를 구동하기 위한 가이드입니다. 
+사전에 **Docker Desktop**, **Java 17**, **Node.js (v18+)** 가 설치되어 있어야 합니다.
+
+### 7.1 데이터베이스 실행 (MySQL 컨테이너)
+프로젝트 최상단 폴더(기본 `polbook/`)에서 다음 명령어로 백그라운드 DB 서버를 구동합니다.
+```bash
+docker compose up -d
+```
+> 종료 시: `docker compose down`
+
+### 7.2 백엔드 서버 실행 (Spring Boot)
+`backend/` 폴더 안으로 이동하여 Gradle(빌드 도구)로 서버를 가동합니다. 
+기본 포트는 `8080` 입니다.
+```bash
+cd backend
+./gradlew bootRun
+```
+> Windows의 경우: `gradlew.bat bootRun`
+> 종료 시: `Ctrl + C`
+
+### 7.3 프론트엔드 서버 실행 (React + Vite)
+`frontend/` 폴더 안으로 이동하여 개발 서버를 가동합니다.
+기본 포트는 `5173` 입니다.
+```bash
+cd frontend
+npm install  # (최초 1회 한정 패키지 설치)
+npm run dev
+```
+> 외부 화면(휴대폰 등) 접속 필요 시: `npm run dev -- --host`
+> 종료 시: `Ctrl + C`
