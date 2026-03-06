@@ -13,3 +13,21 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
+
+  # 메일 설정 (Mock 모드에서는 실제로 사용되지 않지만, 빈 등록을 위해 기본값 설정)
+  mail:
+    host: localhost
+    port: 25
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+
+# Polbook 커스텀 설정
+polbook:
+  mail:
+    domain: office.kopo.ac.kr
+    mock: true
+    expiry-minutes: 5
