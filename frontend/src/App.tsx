@@ -33,7 +33,7 @@ function App() {
         <AuthProvider>
             <BrowserRouter>
                 {/* 여기에 네비게이션(헤더) 컴포넌트가 공통으로 들어갈 수 있습니다. */}
-                <div className="container mx-auto p-4 max-w-md bg-gray-50 min-h-screen">
+                <div className="min-h-screen bg-[#FDFDFF] selection:bg-blue-100 selection:text-blue-900">
                     <Routes>
                         {/* 공통 화면 */}
                         <Route path="/" element={<HomePage />} />

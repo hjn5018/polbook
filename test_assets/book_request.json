@@ -1,0 +1,14 @@
+{
+    "title": "알고리즘 및 자료구조 실습",
+    "category": "MAJOR",
+    "department": "컴퓨터소프트웨어공학과",
+    "grade": 2,
+    "semester": 1,
+    "courseName": "자료구조실습",
+    "professor": "이교수",
+    "price": 18000,
+    "description": "수업 시간에 사용한 알고리즘 교재입니다. 앞부분에 약간의 필기가 있지만 상태는 매우 좋습니다. 본관 앞에서 직거래 선호합니다.",
+    "condition": "A",
+    "hasNotes": true,
+    "locationId": 1
+}

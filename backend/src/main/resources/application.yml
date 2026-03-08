@@ -7,14 +7,14 @@ spring:
     # url: jdbc:mysql://localhost:3306/polbook_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     # username: polbook_user
     # password: polbook_password
-    url: jdbc:h2:mem:devdb;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:file:./db/polbook;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     driver-class-name: org.h2.Driver
     username: sa
     password:
 
   jpa:
     hibernate:
-      ddl-auto: create-drop # Changed to create-drop for fresh H2
+      ddl-auto: update # Keep data between restarts
     show-sql: true
     properties:
       hibernate:
