@@ -87,11 +87,11 @@
 - [x] 프론트엔드: 프로필 수정 기능 (닉네임, 프로필 사진 변경 및 AuthContext 연동)
 
 ### 3-7. 1:1 실시간 채팅 기능 (WebSocket / STOMP)
-- [ ] 백엔드: `ChatRoom`, `ChatMessage` 엔티티 생성 (ERD 기반)
-- [ ] 백엔드: WebSocket(STOMP) 설정 — `/ws/chat` 엔드포인트
-- [ ] 백엔드: `POST /api/chats` — 채팅방 생성 REST API
-- [ ] 백엔드: `GET /api/chats` — 내 채팅방 목록 조회 API
-- [ ] 백엔드: `GET /api/chats/{roomId}/messages` — 이전 메시지 조회 API
+- [x] 백엔드: `ChatRoom`, `ChatMessage` 엔티티 생성 (ERD 기반)
+- [x] 백엔드: WebSocket(STOMP) 설정 — `/ws/chat` 엔드포인트
+- [x] 백엔드: `POST /api/chats/rooms` — 채팅방 생성 REST API
+- [x] 백엔드: `GET /api/chats/rooms` — 내 채팅방 목록 조회 API
+- [x] 백엔드: `GET /api/chats/rooms/{roomId}/messages` — 이전 메시지 조회 API
 - [ ] 백엔드: 읽음 처리 로직 구현 (`chat_read_logic.md` 참고)
 - [ ] 프론트엔드: 채팅방 목록 화면 — 최근 메시지, 읽지 않은 개수 표시
 - [ ] 프론트엔드: 채팅방 화면 — 실시간 메시지 송수신 UI
