@@ -42,7 +42,7 @@ public class BookService {
      */
     public Page<BookResponse> getBooks(Category category, TradeStatus status, String keyword, Pageable pageable) {
         Page<Book> books = bookRepository.findAllWithFilters(category, status, keyword, pageable);
-        return books.map(this::convertToResponse);
+        return books.map(BookService::convertToResponse);
     }
 
     /**
@@ -54,7 +54,7 @@ public class BookService {
                 .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다: " + bookId));
 
         book.increaseViewCount(); // 조회수 증가
-        return convertToResponse(book);
+        return BookService.convertToResponse(book);
     }
 
     /**
@@ -158,7 +158,7 @@ public class BookService {
         }
     }
 
-    private BookResponse convertToResponse(Book book) {
+    public static BookResponse convertToResponse(Book book) {
         return BookResponse.builder()
                 .bookId(book.getBookId())
                 .title(book.getTitle())
@@ -177,7 +177,9 @@ public class BookService {
                 .createdAt(book.getCreatedAt())
                 .sellerId(book.getSeller().getUserId())
                 .sellerNickname(book.getSeller().getNickname())
-                .sellerMannerScore(book.getSeller().getMannerScore().doubleValue())
+                .sellerMannerScore(
+                        book.getSeller().getMannerScore() != null ? book.getSeller().getMannerScore().doubleValue()
+                                : 36.5)
                 .locationId(book.getLocation().getLocationId())
                 .locationName(book.getLocation().getName())
                 .imageUrls(book.getImages().stream().map(BookImage::getImageUrl).collect(Collectors.toList()))

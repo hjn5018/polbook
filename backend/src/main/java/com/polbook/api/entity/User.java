@@ -59,4 +59,13 @@ public class User extends BaseTimeEntity {
         this.role = Role.USER;
         this.isSuspended = false;
     }
+
+    public void updateProfile(String nickname, String profileImage) {
+        if (nickname != null && !nickname.isBlank()) {
+            this.nickname = nickname;
+        }
+        if (profileImage != null) {
+            this.profileImage = profileImage;
+        }
+    }
 }

@@ -72,16 +72,21 @@
 - [x] 프론트엔드: 검색바 + 필터 드롭다운 UI 구현
 - [x] 프론트엔드: 검색 결과 목록 화면 연동
 
-### 3-5. 에스크로 결제 연동 및 거래 상태 변경
-- [ ] 백엔드: `Payment`, `Settlement` 엔티티 생성 (ERD 기반)
-- [ ] 백엔드: `POST /api/payments/ready` — 결제 준비 (주문 UID 생성) API
-- [ ] 백엔드: `POST /api/payments/complete` — PG사 결제 완료 웹훅 처리
-- [ ] 백엔드: `POST /api/payments/settle` — 구매 확정 (에스크로 정산) API
-- [ ] 백엔드: PG사 연동 (PortOne / Toss Payments 등) 설정
-- [ ] 프론트엔드: 결제 버튼 → PG 결제창 호출 → 결과 처리 흐름
-- [ ] 프론트엔드: 구매 확정 버튼 UI 및 상태 반영
+### 3-5. 찜하기 기능
+- [x] 백엔드: `Wishlist` 엔티티 생성 (ERD 기반)
+- [x] 백엔드: `POST /api/books/{bookId}/wish` — 찜 토글 API
+- [x] 백엔드: `GET /api/books/{bookId}/wish/status` — 찜 여부 확인 API
+- [x] 백엔드: `GET /api/users/me/wishlists` — 내 찜 목록 조회 API
+- [x] 프론트엔드: 책 상세 화면에 ❤️ 찜 버튼 토글 UI 및 연동
+- [x] 프론트엔드: 마이페이지 — 찜 목록 탭 연동
 
-### 3-6. 1:1 실시간 채팅 기능 (WebSocket / STOMP)
+### 3-6. 사용자 프로필 (마이페이지)
+- [x] 백엔드: `GET /api/users/me`, `PATCH /api/users/me` — 내 프로필 조회/수정 API
+- [x] 백엔드: `GET /api/users/me/books` — 내가 등록한 도서 목록 API
+- [x] 프론트엔드: 마이페이지 종합 화면 (프로필, 매너 온도, 판매 내역, 찜 목록 탭)
+- [x] 프론트엔드: 프로필 수정 기능 (닉네임, 프로필 사진 변경 및 AuthContext 연동)
+
+### 3-7. 1:1 실시간 채팅 기능 (WebSocket / STOMP)
 - [ ] 백엔드: `ChatRoom`, `ChatMessage` 엔티티 생성 (ERD 기반)
 - [ ] 백엔드: WebSocket(STOMP) 설정 — `/ws/chat` 엔드포인트
 - [ ] 백엔드: `POST /api/chats` — 채팅방 생성 REST API
@@ -92,33 +97,29 @@
 - [ ] 프론트엔드: 채팅방 화면 — 실시간 메시지 송수신 UI
 - [ ] 프론트엔드: WebSocket 연결 관리 (연결/재연결/해제)
 
-### 3-7. 매너 온도(평점) 및 리뷰 작성 기능
+### 3-8. 에스크로 결제 연동 및 거래 상태 변경
+- [ ] 백엔드: `Payment`, `Settlement` 엔티티 생성 (ERD 기반)
+- [ ] 백엔드: `POST /api/payments/ready` — 결제 준비 (주문 UID 생성) API
+- [ ] 백엔드: `POST /api/payments/complete` — PG사 결제 완료 웹훅 처리
+- [ ] 백엔드: `POST /api/payments/settle` — 구매 확정 (에스크로 정산) API
+- [ ] 백엔드: PG사 연동 (PortOne / Toss Payments 등) 설정
+- [ ] 프론트엔드: 결제 버튼 → PG 결제창 호출 → 결과 처리 흐름
+- [ ] 프론트엔드: 구매 확정 버튼 UI 및 상태 반영
+
+### 3-9. 매너 온도(평점) 및 리뷰 작성 기능
 - [ ] 백엔드: `Review` 엔티티 생성 (ERD 기반)
 - [ ] 백엔드: `POST /api/reviews` — 리뷰 작성 API (거래 완료 후 작성 가능)
 - [ ] 백엔드: 매너 온도 자동 계산 로직 (리뷰 점수 기반 Users.manner_score 갱신)
 - [ ] 프론트엔드: 거래 완료 후 리뷰 작성 모달/화면 UI
 - [ ] 프론트엔드: 마이페이지 — 받은 리뷰 목록 및 매너 온도 표시
 
-### 3-8. 악성 유저 신고 접수 및 알림 기능
+### 3-10. 악성 유저 신고 접수 및 알림 기능
 - [ ] 백엔드: `Report` 엔티티 생성 (ERD 기반)
 - [ ] 백엔드: `POST /api/reports` — 신고 접수 API (사유 ENUM 처리)
 - [ ] 백엔드: 관리자(ADMIN) 신고 조회/처리 API
 - [ ] 백엔드: 이용 정지 처리 로직 (Users.is_suspended, suspended_until 갱신)
 - [ ] 프론트엔드: 게시글/사용자 신고 버튼 및 사유 선택 모달 UI
 - [ ] 프론트엔드: 관리자 페이지 — 신고 목록 조회 및 처리 기능
-
-### 3-9. 찜하기 기능
-- [ ] 백엔드: `Wishlist` 엔티티 생성 (ERD 기반)
-- [ ] 백엔드: `POST /api/books/{bookId}/wish` — 찜 토글 API
-- [ ] 백엔드: `GET /api/users/me/wishlists` — 내 찜 목록 조회 API
-- [ ] 프론트엔드: 책 상세/목록 화면에 ❤️ 찜 버튼 토글 UI
-- [ ] 프론트엔드: 마이페이지 — 찜 목록 화면 연동
-
-### 3-10. 사용자 프로필 (마이페이지)
-- [ ] 백엔드: `GET /api/users/me`, `PUT /api/users/me` — 내 프로필 조회/수정 API
-- [ ] 백엔드: `GET /api/users/{userId}` — 타인 프로필 조회 API
-- [ ] 프론트엔드: 마이페이지 종합 화면 (프로필, 매너 온도, 판매 내역, 찜 목록)
-- [ ] 프론트엔드: 프로필 수정 화면 (닉네임, 프로필 사진 변경)
 
 ## 4. 🚀 인프라 배포 및 테스트 (Verification & Deployment)
 - [ ] AWS EC2 서버에 Spring Boot 애플리케이션 배포

@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { FiArrowLeft, FiUser, FiMapPin, FiClock, FiEye, FiCheckCircle, FiEdit, FiTrash2, FiMessageCircle, FiHeart } from 'react-icons/fi';
-import { bookService, type Book } from '../services/bookService';
+import { bookService } from '../services/bookService';
+import type { Book } from '../services/bookService';
+import { wishlistService } from '../services/wishlistService';
 import { useAuth } from '../context/AuthContext';
 
 const BookDetailPage: React.FC = () => {
@@ -12,6 +14,7 @@ const BookDetailPage: React.FC = () => {
     const [book, setBook] = useState<Book | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [activeImage, setActiveImage] = useState(0);
+    const [isWished, setIsWished] = useState(false);
 
     const fetchBook = useCallback(async () => {
         if (!id) return;
@@ -19,6 +22,12 @@ const BookDetailPage: React.FC = () => {
         try {
             const response = await bookService.getBook(id);
             setBook(response.data);
+
+            // 찜 여부 확인 (로그인 시에만)
+            if (user) {
+                const wishRes = await wishlistService.getWishStatus(Number(id));
+                setIsWished(wishRes.isWished);
+            }
         } catch (error) {
             console.error('Failed to fetch book detail:', error);
             alert('도서 정보를 불러오는데 실패했습니다.');
@@ -26,11 +35,27 @@ const BookDetailPage: React.FC = () => {
         } finally {
             setIsLoading(false);
         }
-    }, [id, navigate]);
+    }, [id, navigate, user]);
 
     useEffect(() => {
         fetchBook();
     }, [fetchBook]);
+
+    const handleWishToggle = async () => {
+        if (!user) {
+            alert('로그인이 필요한 서비스입니다.');
+            navigate('/login');
+            return;
+        }
+        if (!book) return;
+
+        try {
+            const res = await wishlistService.toggleWish(book.bookId);
+            setIsWished(res.isWished);
+        } catch (error) {
+            console.error('Failed to toggle wish:', error);
+        }
+    };
 
     const handleDelete = async () => {
         if (!book || !window.confirm('정말 삭제하시겠습니까?')) return;
@@ -116,7 +141,7 @@ const BookDetailPage: React.FC = () => {
                     {/* Thumbnails */}
                     {book.imageUrls && book.imageUrls.length > 1 && (
                         <div className="flex space-x-3 overflow-x-auto pb-2">
-                            {book.imageUrls.map((url, idx) => (
+                            {book.imageUrls.map((url: string, idx: number) => (
                                 <button
                                     key={idx}
                                     onClick={() => setActiveImage(idx)}
@@ -171,8 +196,14 @@ const BookDetailPage: React.FC = () => {
                             <button className="flex-1 flex items-center justify-center py-4 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-700 hover:shadow-2xl hover:translate-y-[-2px] transition-all shadow-xl shadow-blue-100 group">
                                 <FiMessageCircle className="mr-2" size={20} /> 판매자와 채팅하기
                             </button>
-                            <button className="w-14 h-14 flex items-center justify-center bg-gray-50 text-gray-400 rounded-2xl hover:bg-white hover:text-red-500 hover:border-red-100 border border-transparent transition-all">
-                                <FiHeart size={24} />
+                            <button
+                                onClick={handleWishToggle}
+                                className={`w-14 h-14 flex items-center justify-center rounded-2xl transition-all border ${isWished
+                                        ? 'bg-red-50 text-red-500 border-red-100 shadow-inner'
+                                        : 'bg-gray-50 text-gray-400 border-transparent hover:bg-white hover:text-red-500 hover:border-red-100'
+                                    }`}
+                            >
+                                <FiHeart size={24} fill={isWished ? "currentColor" : "none"} className={isWished ? "animate-pulse" : ""} />
                             </button>
                         </div>
                     </div>
