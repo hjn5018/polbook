@@ -44,15 +44,16 @@
 - [ ] 추후: Mock → AWS SES 실제 이메일 발송으로 전환
 
 ### 3-2. JWT 기반 회원가입 및 로그인 (Access / Refresh Token)
-- [ ] 백엔드: `User` 엔티티 및 `Users` 테이블 생성 (ERD 기반)
-- [ ] 백엔드: Spring Security + JWT 의존성 추가 및 설정
-- [ ] 백엔드: `JwtTokenProvider` — Access Token / Refresh Token 발급/검증 유틸 구현
-- [ ] 백엔드: `AuthController` — `POST /api/auth/signup`, `POST /api/auth/login` API 구현
+- [x] 백엔드: `User` 엔티티 및 `Users` 테이블 생성 (ERD 기반)
+- [x] 백엔드: Spring Security + JWT 의존성 추가 및 설정
+- [x] 백엔드: `JwtTokenProvider` — Access Token / Refresh Token 발급/검증 유틸 구현
+- [x] 백엔드: `AuthController` — `POST /api/auth/signup`, `POST /api/auth/login` API 구현
+- [x] 백엔드: Refresh Token 저장소(`RefreshToken` 엔티티) 및 로직 구현
 - [ ] 백엔드: 비밀번호 재설정 `POST /api/auth/password/reset` API 구현
-- [ ] 백엔드: JWT 인증 필터(Filter) 적용 — 보호된 엔드포인트 접근 제어
-- [ ] 프론트엔드: 회원가입 폼 (학번, 비밀번호, 닉네임, 이메일 인증 토큰) 연동
-- [ ] 프론트엔드: 로그인 폼 및 토큰 저장 (LocalStorage / Cookie) 처리
-- [ ] 프론트엔드: 자동 로그인 및 Access Token 만료 시 Refresh Token 갱신 로직
+- [x] 백엔드: JWT 인증 필터(Filter) 적용 — 보호된 엔드포인트 접근 제어
+- [x] 프론트엔드: 회원가입 폼 (학번, 비밀번호, 닉네임, 이메일 인증 토큰) 연동
+- [x] 프론트엔드: 로그인 폼 및 토큰 저장 (LocalStorage / Cookie) 처리
+- [x] 프론트엔드: 자동 로그인 및 Access Token 만료 시 Refresh Token 갱신 로직 (Axios Interceptor)
 
 ### 3-3. 중고 서적 CRUD (사진 업로드 포함)
 - [ ] 백엔드: `Book`, `BookImage` 엔티티 생성 (ERD 기반)

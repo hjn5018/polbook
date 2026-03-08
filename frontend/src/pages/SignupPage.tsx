@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { sendVerificationEmail, verifyEmailCode } from '../services/authService';
+import { sendVerificationEmail, verifyEmailCode, signup } from '../services/authService';
 import './SignupPage.css';
 
 export default function SignupPage() {
@@ -17,14 +17,16 @@ export default function SignupPage() {
     // 타이머 상태
     const [timeLeft, setTimeLeft] = useState(0);
 
-    // 회원가입 폼 상태 (추후 3-2 JWT 구현 시 활용)
+    // 회원가입 폼 상태
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
     const [nickname, setNickname] = useState('');
+    const [signupSuccess, setSignupSuccess] = useState(false);
 
     // 로딩 상태
     const [isSending, setIsSending] = useState(false);
     const [isVerifying, setIsVerifying] = useState(false);
+    const [isSigningUp, setIsSigningUp] = useState(false);
 
     // 타이머 카운트다운
     useEffect(() => {
@@ -39,7 +41,7 @@ export default function SignupPage() {
     const formatTime = (seconds: number) => {
         const m = String(Math.floor(seconds / 60)).padStart(2, '0');
         const s = String(seconds % 60).padStart(2, '0');
-        return `${m}:${s}`;
+        return `${m}:${s} `;
     };
 
     // 학번 유효성 검사
@@ -97,8 +99,8 @@ export default function SignupPage() {
         }
     };
 
-    // 회원가입 제출 (추후 3-2 JWT에서 실제 연동)
-    const handleSignup = (e: React.FormEvent) => {
+    // 회원가입 제출
+    const handleSignup = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!isEmailVerified) {
             setEmailError('이메일 인증을 먼저 완료해주세요.');
@@ -108,8 +110,29 @@ export default function SignupPage() {
             setEmailError('비밀번호가 일치하지 않습니다.');
             return;
         }
-        // TODO: 3-2 JWT 회원가입 API 호출
-        alert('회원가입 기능은 다음 단계(3-2 JWT)에서 완성됩니다.');
+        if (password.length < 8) {
+            setEmailError('비밀번호는 최소 8자 이상이어야 합니다.');
+            return;
+        }
+
+        setIsSigningUp(true);
+        setEmailError('');
+
+        try {
+            await signup({
+                studentId,
+                email: `${studentId}@office.kopo.ac.kr`,
+                password,
+                nickname
+            });
+            setSignupSuccess(true);
+            setTimeout(() => navigate('/login'), 2000);
+        } catch (err: any) {
+            const msg = err.response?.data?.message || '회원가입에 실패했습니다.';
+            setEmailError(msg);
+        } finally {
+            setIsSigningUp(false);
+        }
     };
 
     return (
@@ -120,11 +143,17 @@ export default function SignupPage() {
                     <p className="signup-subtitle">교내 중고 책 거래 서비스</p>
                 </div>
 
+                {signupSuccess && (
+                    <div className="success-message-global">
+                        <p>🎉 회원가입이 완료되었습니다! 잠시 후 로그인 페이지로 이동합니다.</p>
+                    </div>
+                )}
+
                 <form className="signup-form" onSubmit={handleSignup}>
                     {/* ===== 1단계: 이메일 인증 ===== */}
                     <div className="form-section">
                         <h2 className="section-title">
-                            <span className={`step-badge ${isEmailVerified ? 'completed' : 'active'}`}>
+                            <span className={`step - badge ${isEmailVerified ? 'completed' : 'active'} `}>
                                 {isEmailVerified ? '✓' : '1'}
                             </span>
                             이메일 인증
@@ -149,7 +178,7 @@ export default function SignupPage() {
                                 type="button"
                                 onClick={handleSendEmail}
                                 disabled={!isStudentIdValid || isSending || isEmailVerified}
-                                className={`btn-send ${isEmailSent && !isEmailVerified ? 'btn-resend' : ''}`}
+                                className={`btn - send ${isEmailSent && !isEmailVerified ? 'btn-resend' : ''} `}
                             >
                                 {isSending ? '발송 중...' : isEmailSent ? '재전송' : '인증 전송'}
                             </button>
@@ -170,7 +199,7 @@ export default function SignupPage() {
                                             className="input-field code-input"
                                         />
                                         {timeLeft > 0 && (
-                                            <span className={`timer ${timeLeft <= 60 ? 'timer-warning' : ''}`}>
+                                            <span className={`timer ${timeLeft <= 60 ? 'timer-warning' : ''} `}>
                                                 {formatTime(timeLeft)}
                                             </span>
                                         )}
@@ -204,9 +233,9 @@ export default function SignupPage() {
                     </div>
 
                     {/* ===== 2단계: 회원 정보 입력 (이메일 인증 후 활성화) ===== */}
-                    <div className={`form-section ${!isEmailVerified ? 'disabled-section' : ''}`}>
+                    <div className={`form - section ${!isEmailVerified ? 'disabled-section' : ''} `}>
                         <h2 className="section-title">
-                            <span className={`step-badge ${isEmailVerified ? 'active' : ''}`}>2</span>
+                            <span className={`step - badge ${isEmailVerified ? 'active' : ''} `}>2</span>
                             회원 정보 입력
                         </h2>
 
@@ -251,10 +280,10 @@ export default function SignupPage() {
 
                         <button
                             type="submit"
-                            disabled={!isEmailVerified || !nickname || !password || !passwordConfirm}
+                            disabled={!isEmailVerified || !nickname || !password || !passwordConfirm || isSigningUp}
                             className="btn-signup"
                         >
-                            회원가입
+                            {isSigningUp ? '가입 중...' : '회원가입'}
                         </button>
                     </div>
                 </form>

@@ -57,13 +57,19 @@ public class EmailService {
         String toEmail = studentId + "@" + mailDomain;
 
         if (mockMode) {
-            // ========== Mock 모드: 콘솔에 인증 코드 출력 ==========
+            // ========== Mock 모드: 콘솔 및 파일에 인증 코드 출력 ==========
             log.info("============================================");
             log.info("[MOCK 이메일 발송]");
             log.info("  수신자: {}", toEmail);
             log.info("  인증 코드: {}", code);
             log.info("  유효 기간: {}분", expiryMinutes);
             log.info("============================================");
+
+            try {
+                java.nio.file.Files.writeString(java.nio.file.Path.of("C:/tmp/verification_code.txt"), code);
+            } catch (java.io.IOException e) {
+                log.error("Failed to write verification code to file", e);
+            }
         } else {
             // ========== 실제 이메일 발송 (추후 AWS SES 연동 시 사용) ==========
             SimpleMailMessage message = new SimpleMailMessage();
