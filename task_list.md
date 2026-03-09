@@ -92,10 +92,10 @@
 - [x] 백엔드: `POST /api/chats/rooms` — 채팅방 생성 REST API
 - [x] 백엔드: `GET /api/chats/rooms` — 내 채팅방 목록 조회 API
 - [x] 백엔드: `GET /api/chats/rooms/{roomId}/messages` — 이전 메시지 조회 API
-- [ ] 백엔드: 읽음 처리 로직 구현 (`chat_read_logic.md` 참고)
-- [ ] 프론트엔드: 채팅방 목록 화면 — 최근 메시지, 읽지 않은 개수 표시
-- [ ] 프론트엔드: 채팅방 화면 — 실시간 메시지 송수신 UI
-- [ ] 프론트엔드: WebSocket 연결 관리 (연결/재연결/해제)
+- [x] 백엔드: 읽음 처리 로직 구현 (`chat_read_logic.md` 참고)
+- [x] 프론트엔드: 채팅방 목록 화면 — 최근 메시지, 읽지 않은 개수 표시
+- [x] 프론트엔드: 채팅방 화면 — 실시간 메시지 송수신 UI
+- [x] 프론트엔드: WebSocket 연결 관리 (연결/재연결/해제)
 
 ### 3-8. 에스크로 결제 연동 및 거래 상태 변경
 - [ ] 백엔드: `Payment`, `Settlement` 엔티티 생성 (ERD 기반)

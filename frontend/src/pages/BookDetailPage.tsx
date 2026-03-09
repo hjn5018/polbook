@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { FiArrowLeft, FiUser, FiMapPin, FiClock, FiEye, FiCheckCircle, FiEdit, FiTrash2, FiMessageCircle, FiHeart } from 'react-icons/fi';
 import { bookService } from '../services/bookService';
 import type { Book } from '../services/bookService';
+import { chatService } from '../services/chatService';
 import { wishlistService } from '../services/wishlistService';
 import { useAuth } from '../context/AuthContext';
 
@@ -193,14 +194,32 @@ const BookDetailPage: React.FC = () => {
                         </div>
 
                         <div className="flex flex-col sm:flex-row gap-3">
-                            <button className="flex-1 flex items-center justify-center py-4 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-700 hover:shadow-2xl hover:translate-y-[-2px] transition-all shadow-xl shadow-blue-100 group">
-                                <FiMessageCircle className="mr-2" size={20} /> 판매자와 채팅하기
-                            </button>
+                            {!isSeller && (
+                                <button
+                                    onClick={async () => {
+                                        if (!user) {
+                                            alert('로그인이 필요한 서비스입니다.');
+                                            navigate('/login');
+                                            return;
+                                        }
+                                        try {
+                                            const res = await chatService.createOrGetRoom(book.bookId);
+                                            navigate(`/chat/${res.data}`);
+                                        } catch (error: any) {
+                                            console.error('Failed to create chat room:', error);
+                                            alert(error.response?.data?.message || '채팅방 생성에 실패했습니다.');
+                                        }
+                                    }}
+                                    className="flex-1 flex items-center justify-center py-4 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-700 hover:shadow-2xl hover:translate-y-[-2px] transition-all shadow-xl shadow-blue-100 group"
+                                >
+                                    <FiMessageCircle className="mr-2" size={20} /> 판매자와 채팅하기
+                                </button>
+                            )}
                             <button
                                 onClick={handleWishToggle}
                                 className={`w-14 h-14 flex items-center justify-center rounded-2xl transition-all border ${isWished
-                                        ? 'bg-red-50 text-red-500 border-red-100 shadow-inner'
-                                        : 'bg-gray-50 text-gray-400 border-transparent hover:bg-white hover:text-red-500 hover:border-red-100'
+                                    ? 'bg-red-50 text-red-500 border-red-100 shadow-inner'
+                                    : 'bg-gray-50 text-gray-400 border-transparent hover:bg-white hover:text-red-500 hover:border-red-100'
                                     }`}
                             >
                                 <FiHeart size={24} fill={isWished ? "currentColor" : "none"} className={isWished ? "animate-pulse" : ""} />

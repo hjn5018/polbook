@@ -3,7 +3,7 @@ package com.polbook.api.controller;
 import com.polbook.api.dto.chat.ChatMessageResponse;
 import com.polbook.api.dto.chat.ChatRoomResponse;
 import com.polbook.api.entity.ChatMessage;
-import com.polbook.api.entity.User;
+import com.polbook.api.security.CustomUserDetails;
 import com.polbook.api.service.ChatService;
 import com.polbook.api.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -41,15 +41,15 @@ public class ChatController {
     @PostMapping("/rooms")
     public ResponseEntity<Long> createRoom(
             @RequestBody Map<String, Long> request,
-            @AuthenticationPrincipal User user) {
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
         Long bookId = request.get("bookId");
-        return ResponseEntity.ok(chatService.getOrCreateRoom(bookId, user.getUserId()));
+        return ResponseEntity.ok(chatService.getOrCreateRoom(bookId, userDetails.getUser().getUserId()));
     }
 
     // 3. 내 채팅방 목록 조회
     @GetMapping("/rooms")
-    public ResponseEntity<List<ChatRoomResponse>> getMyRooms(@AuthenticationPrincipal User user) {
-        return ResponseEntity.ok(chatService.getMyRooms(user));
+    public ResponseEntity<List<ChatRoomResponse>> getMyRooms(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        return ResponseEntity.ok(chatService.getMyRooms(userDetails.getUser()));
     }
 
     // 4. 이전 메시지 내역 조회
@@ -59,5 +59,14 @@ public class ChatController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
         return ResponseEntity.ok(chatService.getMessages(roomId, page, size));
+    }
+
+    // 5. 채팅방 읽음 처리 (입장 시 호출)
+    @PostMapping("/rooms/{roomId}/read")
+    public ResponseEntity<Void> markAsRead(
+            @PathVariable Long roomId,
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+        chatService.markAsRead(roomId, userDetails.getUser());
+        return ResponseEntity.ok().build();
     }
 }

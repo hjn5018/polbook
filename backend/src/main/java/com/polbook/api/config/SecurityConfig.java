@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .headers(headers -> headers.frameOptions(frame -> frame.disable()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/", "/api/auth/**", "/h2-console/**", "/api/images/**").permitAll()
+                        .requestMatchers("/", "/api/auth/**", "/h2-console/**", "/api/images/**", "/ws/**").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/books/**", "/api/locations")
                         .permitAll()
                         .anyRequest().authenticated())
